@@ -75,11 +75,11 @@ public class AppConfig {
         ds.setUsername("nsbt");
         ds.setPassword("qwerty");*/
 
-        ds.setUrl("jdbc:oracle:thin:@localhost:1521:orcl");
-        ds.setUsername("c##asaf");
-        ds.setPassword("asaf");
+        ds.setUrl("jdbc:oracle:thin:@localhost:1521:ORDB12C");
+        ds.setUsername("c##kirtika");
+        ds.setPassword("admin");
 
-        */
+
 //        ds.setUsername("c##username");
 //        ds.setPassword("pwd");
 
