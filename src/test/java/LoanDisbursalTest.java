@@ -1,6 +1,6 @@
 import com.nucleus.config.TestConfig;
-import com.nucleus.receipt.model.Receipt;
-import com.nucleus.receipt.service.ReceiptService;
+import com.nucleus.customerservice.loandisbursal.service.LoanDisbursalService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +13,18 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = TestConfig.class)
-public class ReceiptServiceTest {
+public class LoanDisbursalTest {
 
     @Autowired
-    ReceiptService receiptService;
+    LoanDisbursalService loanDisbursalService;
 
     @Test
-    public void registerEmptyReceiptTest(){
-        Receipt receipt = new Receipt();
-        assertFalse(receiptService.registerReceipt(receipt));
+    public void getLoanDetailsTest(){
+        assertNull(loanDisbursalService.getLoanDetails(0));
     }
 
     @Test
-    public void randomReceiptSearchTest(){
-        assertTrue(receiptService.receiptSearch("random", "random", 111, 111).size() == 0);
+    public void getCustomerLoanDetailsTest(){
+        Assert.assertEquals(loanDisbursalService.getCustomerLoanDetails("C"),null);
     }
 }
