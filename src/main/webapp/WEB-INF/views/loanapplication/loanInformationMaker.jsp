@@ -9,7 +9,7 @@
 
 <head>
 
-    <title>Loan Information Cheker</title>
+    <title>Loan Information</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -37,17 +37,20 @@
                   <div class="row ">
                       <div class="form-group col-sm-3">
                            <label>Loan Application Number<a class="text-danger">*</a></label>
-                           <form:input type="number" class="form-control" path="loanApplicationNumber" readonly = "true"/>
+                           <form:input type="number" class="form-control" path="loanApplicationNumber" readonly="true" />
                       </div>
                        </div>
                     <div class="row ">
                          <div class="form-group col-sm-3">
                                 <form:label path="productType" cssClass="font-weight-bold required-field">Product Type:</form:label>
-                                <form:input type="text" class="form-control" path="ProductType" readonly = "true"/>
+                                 <form:select path="productType" cssClass="form-control">
+                                       <form:option value="-"  disabled="${'true'}" selected="true" label="Select One Option"/>
+                                       <form:options items="${productType}" />
+                                 </form:select>
                                   </div>
                         <div class="form-group col-sm-3 offset-4">
                             <label>Loan Amount Requested<a class="text-danger">*</a></label>
-                            <form:input type="number" class="form-control" path="loanAmountRequested" readonly = "true"/>
+                            <form:input type="number" class="form-control" path="loanAmountRequested" />
                         </div>
 
                     </div>
@@ -56,12 +59,12 @@
 
                         <div class="form-group col-sm-3 ">
                             <label>Tenure<a class="text-danger">*</a></label>
-                            <form:input type="number" class="form-control" path="tenure" readonly = "true" />
+                            <form:input type="number" class="form-control" path="tenure" />
                         </div>
 
                         <div class="form-group col-sm-3 offset-4">
                             <label>Rate<a class="text-danger">*</a></label>
-                            <form:input type="number" class="form-control" path="rate" readonly = "true"/>
+                            <form:input type="number" class="form-control" path="rate" />
                         </div>
                     </div>
 
@@ -69,12 +72,12 @@
 
                         <div class="form-group col-sm-3 ">
                             <label>Agreement Date<a class="text-danger">*</a></label>
-                            <form:input type="date" class="form-control" value="${loanApplication.agreementDate}" path="agreementDate" readonly = "true" />
+                            <form:input type="date" class="form-control" value="${loanApplication.agreementDate}" path="agreementDate" />
                         </div>
 
                         <div class="form-group col-sm-3 offset-4">
                             <label>Installment Due Date<a class="text-danger">*</a></label>
-                            <form:input type="date" class="form-control" value="${loanApplication.installmentDueDate}" path="installmentDueDate" readonly = "true"/>
+                            <form:input type="date" class="form-control" value="${loanApplication.installmentDueDate}" path="installmentDueDate" />
 
                         </div>
 
@@ -84,8 +87,7 @@
             </section>
             <hr>
             <div class="text-center">
-                <input class="btn-primary" type="submit" name="op" value="reject">
-                <input class="btn-primary" type="submit" name="op" value="approve">
+                <input class="btn-primary" type="submit" value="Update">
             </div>
         </form:form>
     </article>

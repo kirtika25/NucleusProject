@@ -1,8 +1,6 @@
 package com.nucleus.customer.model;
 
 import com.nucleus.loanapplications.model.LoanApplications;
-import org.graalvm.compiler.virtual.phases.ea.PartialEscapeClosure;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -12,8 +10,9 @@ import java.util.Set;
 @Table( name= "customer")
 public class Customer {
 
-    public static int id = 101;
-    static String code;
+    //103
+    public static  int id = 110;
+    public static String code;
     public Customer(){
         super();
         code = "L"+id;
@@ -47,10 +46,10 @@ public class Customer {
     @Column(name="organization_name",length = 30)
     private String organizationName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="customerCode")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy="customerCode")
     private List<LoanApplications> loanApplications;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="customerCode")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy="customerCode")
     private List<Address> addresses;
 
     @Transient
