@@ -46,8 +46,8 @@ public class LoanClosureServiceImpl implements LoanClosureService {
         return countofClosedLoans;
     }
 
-     /* Method for obtaining the repayment schedule for the given Loan Application
-     and updating the status of the loan based on Bill Flags. */
+    /* Method for obtaining the repayment schedule for the given Loan Application
+    and updating the status of the loan based on Bill Flags. */
     private boolean closeOneLoan(LoanApplications loanApplication){
         boolean flag = true;
         boolean closureStatus = false;
@@ -59,7 +59,7 @@ public class LoanClosureServiceImpl implements LoanClosureService {
             /*Iterating through the repayment schedule and checking if all the Bill Flags are Y
             or not. Break through the loop if any Bill Flag is N.
              */
-            List<RepaymentSchedule> repaymentSchedules = loanClosureDao.getRepaymentSchedule(loanApplication.getLoanApplicationNumber());
+            List<RepaymentSchedule> repaymentSchedules = loanClosureDao.getRepaymentSchedule(loanApplication);
             for (RepaymentSchedule repaymentScheduleEntry : repaymentSchedules) {
                 if (repaymentScheduleEntry.getBillFlag().equalsIgnoreCase("N")) {
                     flag = false;

@@ -140,6 +140,7 @@ public class EligibilityPolicyController {
             return "views/eligibilitypolicies/eligibilityPolicySuccess";
         } else {
             model.addAttribute("operation", "Creation Unsuccessful!");
+            model.addAttribute("errorMsg", "Policy already exists with this policy code.");
             return "views/eligibilitypolicies/eligibilityPolicyFailure";
         }
     }
@@ -224,10 +225,10 @@ public class EligibilityPolicyController {
      */
     @PostMapping(value = {"edit/addEdited"})
     public String addEditedEligibilityPolicy(@RequestParam("action")String action,
-                                       @RequestParam("count")String parameterCountString,
-                                       @Valid @ModelAttribute("eligibilityPolicy") EligibilityPolicy eligibilityPolicy,
-                                       BindingResult result,
-                                       Model model) {
+                                             @RequestParam("count")String parameterCountString,
+                                             @Valid @ModelAttribute("eligibilityPolicy") EligibilityPolicy eligibilityPolicy,
+                                             BindingResult result,
+                                             Model model) {
 
         //Annotation based data validation:
         if (result.hasErrors()) {

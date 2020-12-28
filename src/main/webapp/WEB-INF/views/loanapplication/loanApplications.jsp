@@ -13,14 +13,22 @@
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"> </script>
 
-    <%--
+    <script type="text/javascript">
+        $(function() {
+            $("#customerCoccde").autocomplete({
+                source: "customerAutoComplete",
+                minLength:2
+             });
+         });
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#loanApplicationsTable').DataTable();
         } );
     </script>
-    --%>
+
 
 </head>
 
@@ -75,41 +83,38 @@
                                         <c:url var="deleteUrl" value="/loanApplication/delete?loanApplicationNumber=${loan.loanApplicationNumber}" />
 
                                         <tr>
-                                          <sec:authorize access="hasRole('MAKER')">
+                                        <sec:authorize access="hasRole('MAKER')">
                                             <td>${loan.loanApplicationNumber}</td>
-                                         </sec:authorize>
-                                         <sec:authorize access="hasRole('CHECKER')">
+                                        </sec:authorize>
+                                        <sec:authorize access="hasRole('CHECKER')">
+                                            <c:if test = "${loan.status == 'PENDING'}">
+                                                 <td><a href="${checkUrl}">${loan.loanApplicationNumber}</a></td>
+                                            </c:if>
+                                            <c:if test = "${loan.status != 'PENDING'}">
+                                                 <td>${loan.loanApplicationNumber}</td>
+                                            </c:if>
 
-                                            <td><a href="${checkUrl}">${loan.loanApplicationNumber}</a></td>
-
-                                           
                                          </sec:authorize>
                                          <td>${loan.customerCode.customerCode}</td>
                                          <td>${loan.customerCode.firstName}</td>
-                                         <td></td>
+                                         <td>${loan.productCode.productName}</td>
                                          <td>${loan.createDate}</td>
                                          <td>${loan.createdBy}</td>
                                          <td>${loan.status}</td>
-                                         <td></td>
+                                         <td>${loan.authorizedBy}</td>
                                         <sec:authorize access="hasRole('MAKER')">
-                                            <c:if test = "${loan.status == 'Approved'}">
+                                            <c:if test = "${loan.status == 'APPROVED'}">
                                                  <td style="color:grey"><a>Edit</a> | <a>Delete</a></td>
                                             </c:if>
-                                            <c:if test = "${loan.status != 'Approved'}">
+                                            <c:if test = "${loan.status != 'APPROVED'}">
                                                 <td><a href="${editUrl}">Edit</a> | <a href="${deleteUrl}">Delete</a></td>
                                             </c:if>
                                         </sec:authorize>
-                                                <sec:authorize access="hasRole('CHECKER')">
-                                             <c:if test = "${loan.status == 'Approved'}">
-                                                 <td style="color:grey"><a>Edit</a> | <a>Delete</a></td>
-                                             </c:if>
-                                             <c:if test = "${loan.status != 'Approved'}">
-                                                 <td>
-                                                    <a href="${editUrl}" style="pointer-events:none; cursor:default;color:lightgrey;">Edit</a> |
-                                                    <a href="${deleteUrl}" style="pointer-events:none; cursor:default;color:lightgrey;">Delete </a>
-                                                 </td>
-                                             </c:if>
-                                         </sec:authorize>
+                                        <sec:authorize access="hasRole('CHECKER')">
+
+                                           <td style="color:grey"><a>Edit</a> | <a>Delete</a></td>
+
+                                        </sec:authorize>
                                         </tr>
                                        </c:forEach>
                                    </c:if>
@@ -121,4 +126,4 @@
         </div>
 </div>
 
-<br>
+<br>z

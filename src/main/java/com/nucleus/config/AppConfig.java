@@ -115,6 +115,7 @@ public class AppConfig implements WebMvcConfigurer {
 //         ds.setPassword("megha");
 
           /*   ds.setUrl("jdbc:oracle:thin:@localhost:1521:orcl");
+
         /*   ds.setUrl("jdbc:oracle:thin:@localhost:1521:orcl");
              ds.setUsername("system");
              ds.setPassword("hemant12345");*/
@@ -143,10 +144,10 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Register resource handler for images
-        registry.addResourceHandler("/images/**"
-        ).addResourceLocations("/WEB-INF/images/");
-    }
+      // Register resource handler for images
+           registry.addResourceHandler("/images/**"
+         ).addResourceLocations("/WEB-INF/images/");
+     }
 
 
 }

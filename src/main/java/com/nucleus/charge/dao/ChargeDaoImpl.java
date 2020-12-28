@@ -47,10 +47,15 @@ public class ChargeDaoImpl implements ChargeDao{
      * @param charge This is the model that has to be added to the database.
      * @param status This is the status of charge(i.e., SAVED/PENDING) object added to database.
      *
-     * @return boolean This returns a true/false based on whether the object was successfully added or not.
+     * @return int This returns a status based on whether the object was successfully added or not.
+     * status - 0 : Any error apart from duplicate ID  or Name error.
+     * status - 1 : Successfully inserted to the database
+     * status - 2 : Duplicate ID(Primary Key) which is chargeCode or Name(Unique Constraint) which is chargeCodeName in this case.
+     *
      */
     @Override
-    public boolean insert(NewCharge charge, String status) {
+    public int insert(NewCharge charge, String status) {
+        int insertStatus = 0;
         try(Session session = getSession()){
             session.beginTransaction();
             try {
@@ -60,13 +65,17 @@ public class ChargeDaoImpl implements ChargeDao{
                 charge.setCreatedBy(loginDetails.getUserName());
                 session.save(charge);
                 session.getTransaction().commit();
-                return true;
+                insertStatus = 1;
             } catch (Exception e){
                 e.printStackTrace();
+                if(e.getMessage().contains("ConstraintViolationException"))
+                    insertStatus = 2;
+                else
+                    insertStatus = 0;
                 session.getTransaction().rollback();
-                return false;
             }
         }
+        return insertStatus;
     }
 
     /**
@@ -77,11 +86,11 @@ public class ChargeDaoImpl implements ChargeDao{
     @Override
     public List<NewCharge> getChargeList() {
         List<NewCharge> chargeList;
-        try {
-            Session session = getSession();
+        try (Session session = getSession()) {
             session.beginTransaction();
-            chargeList = session.createQuery("from NewCharge",NewCharge.class).getResultList();
+            chargeList = session.createQuery("from NewCharge", NewCharge.class).getResultList();
             session.getTransaction().commit();
+            session.close();
         }catch (Exception e) {
             chargeList = null;
         }
@@ -96,14 +105,13 @@ public class ChargeDaoImpl implements ChargeDao{
     @Override
     public List<NewCharge> getPendingChargeList() {
         List<NewCharge> chargeList;
-        try {
-            Session session = getSession();
+        try (Session session = getSession()) {
             session.beginTransaction();
-            Query<NewCharge> query = session.createQuery("from NewCharge c where c.status=?1",NewCharge.class);
-            query.setParameter(1,pending);
+            Query<NewCharge> query = session.createQuery("from NewCharge c where c.status=?1", NewCharge.class);
+            query.setParameter(1, pending);
             chargeList = query.getResultList();
             session.getTransaction().commit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             chargeList = null;
         }
         return chargeList;
@@ -120,15 +128,13 @@ public class ChargeDaoImpl implements ChargeDao{
     @Override
     public NewCharge getOneCharge(String chargeCode) {
         NewCharge charge;
-        try {
-            Session session = getSession();
+        try (Session session = getSession()) {
             session.beginTransaction();
             Query<NewCharge> query = session.createQuery("from NewCharge c where c.chargeCode=?1", NewCharge.class);
             query.setParameter(1, chargeCode);
             charge = query.getSingleResult();
             session.getTransaction().commit();
-            session.close();
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             charge = null;
             exception.printStackTrace();
         }
@@ -147,13 +153,11 @@ public class ChargeDaoImpl implements ChargeDao{
     public boolean deleteCharge(String chargeCode) {
         boolean deleteStatus;
         NewCharge charge = getOneCharge(chargeCode);
-        try{
-            Session session = getSession();
+        try (Session session = getSession()) {
             session.beginTransaction();
             session.delete(charge);
             session.getTransaction().commit();
             deleteStatus = true;
-            session.close();
         } catch (Exception exception) {
             deleteStatus = false;
             exception.printStackTrace();
